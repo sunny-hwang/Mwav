@@ -161,9 +161,6 @@ public class BoardController {
 			System.out.println("=====");
 			 vo = highChartService.selectListKeyword(map21, bnKeyword);
 			 
-			/* String json = new ObjectMapper().writeValueAsString(vo);
-			 System.out.println("!+0"+json);*/
-			 
 			 List<SeriesTypeTwoVO> chartDataList  = vo.getSeries();
 			 charDataSeries = new ObjectMapper().writeValueAsString(chartDataList);
 			 
@@ -186,7 +183,6 @@ public class BoardController {
 				metaData.put("thumbnail", (String) selectOneBnsView.get("bnTitleImageLink"));
 				metaData.put("newsKeyword", bnKeyword);
 				metaData.put("isCheck", false);
-				System.out.println("dsf"+bnKeyword);
 				
 					
 				request.setAttribute("boardMetaData", metaData);
@@ -263,7 +259,6 @@ public class BoardController {
 		int totalRow = boardService.selectOneGetTotalCount();
 		System.out.println("totalRow=" + totalRow);
 
-		// Paging pv = new Paging(pageNum, 10 , 10, totalCount);
 		List<Map<String, Object>> selectListBnsList;
 		PagingVO pagingVO = paging.setPagingInfo(totalRow, 5, pageNum); // 총 숫자,
 		// 한페이지에
@@ -281,12 +276,9 @@ public class BoardController {
 		mv.addObject("mode", "m_bnsList");
 		mv.addObject("breadcrumb", "IT Trends");
 		mv.addObject("page_header", null);
-		// mv.addObject("page_header", "IT Trends");
-
 		mv.addObject("selectListBnsList", selectListBnsList);
 		mv.addObject("pagingVO", pagingVO);
 		mv.addObject("totalRow", totalRow);
-		// mv.addObject("paging", pv.print());
 		return mv;
 	}
 
@@ -313,8 +305,6 @@ public class BoardController {
 		mv.addObject("mode", "m_buForm");
 		mv.addObject("breadcrumb", "IT Trends");
 		mv.addObject("page_header", "IT Trends");
-		// mv.addObject("insertBuForm", insertBuForm);
-		// mv.addObject("IDX", commandMap.get("IDX"));
 		return mv;
 	}
 
@@ -325,16 +315,6 @@ public class BoardController {
 		log.info("selectOneBuView()");
 		ModelAndView mv = new ModelAndView("/CustomerService/CS-MasterPage");
 
-		// Common_Util.selectListCommandMap(commandMap); // 키 출력
-		/*
-		 * if (commandMap.isEmpty() == false) { System.out.println("들어옴");
-		 * Iterator<Entry<String, Object>> iterator = commandMap.getMap()
-		 * .entrySet().iterator(); Entry<String, Object> entry = null; while
-		 * (iterator.hasNext()) { entry = iterator.next(); log.debug("key : " +
-		 * entry.getKey() + ",\tvalue : " + entry.getValue());
-		 * System.out.println("key : " + entry.getKey() + ",\tvalue : " +
-		 * entry.getValue()); } }
-		 */
 		Map<String, Object> selectOneBuView = boardService
 				.selectOneBuView(commandMap.getMap());
 
@@ -345,14 +325,14 @@ public class BoardController {
 			mv.addObject("breadcrumb", "Announcement");
 			mv.addObject("page_header", "Announcement");
 
-			String meta_image = (String) selectOneBuView.get("buRelatedLink");
-
-			String title = (String) selectOneBuView.get("buTitle");
-			String description = (String) selectOneBuView.get("buSubTitle");
+			Map<String, Object> metaData = new HashMap<String, Object>();
 			// meta태그 이미지
-			mv.addObject("meta_image", meta_image);
-			mv.addObject("title", title);
-			mv.addObject("description", description);
+			metaData.put("title", (String) selectOneBuView.get("buTitle"));
+			metaData.put("description", (String) selectOneBuView.get("buSubTitle"));
+			metaData.put("thumbnail", (String) selectOneBuView.get("buRelatedLink"));
+				
+			request.setAttribute("boardMetaData", metaData);
+
 			mv.addObject("selectOneBuView", selectOneBuView);
 		}
 		return mv;

@@ -521,7 +521,7 @@
                      <tasks>
                        <!-- https redirect 필터를 Staging용 필터로 교체 -->
                        <delete file="src/main/java/net/common/filter/HttpsFilter.java"/>
-                       <copy file="/app/HttpsFilter.java" tofile="src/main/java/net/common/filter/HttpsFilter.java" />
+                       <copy file="/app/dev_file/HttpsFilter.java" tofile="src/main/java/net/common/filter/HttpsFilter.java" />
                      </tasks>
                    </configuration>
                  </execution>
